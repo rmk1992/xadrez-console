@@ -1,4 +1,4 @@
-﻿namespace Xadrez.Board
+﻿namespace Xadrez.BoardLayer
 {
     internal class Position
     {

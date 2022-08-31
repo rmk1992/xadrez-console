@@ -1,4 +1,4 @@
-﻿namespace Xadrez.Board
+﻿namespace Xadrez.BoardLayer
 {
     internal class Board
     {
@@ -11,6 +11,11 @@
             Rows = rows;
             Columns = columns;
             Pieces = new Piece[rows, columns];
+        }
+
+        public Piece Piece(int row, int column)
+        {
+            return Pieces[row, column];
         }
     }
 }
