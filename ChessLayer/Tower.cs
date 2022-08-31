@@ -1,6 +1,6 @@
 ﻿using Xadrez.BoardLayer;
 
-namespace Xadrez.XadrezLayer
+namespace Xadrez.ChessLayer
 {
     internal class Tower : Piece
     {

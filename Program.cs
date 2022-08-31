@@ -1,6 +1,6 @@
 ﻿using Xadrez;
 using Xadrez.BoardLayer;
-using Xadrez.XadrezLayer;
+using Xadrez.ChessLayer;
 
 try
 {
@@ -8,7 +8,7 @@ try
 
     Board.PutPiece(new King(Board, Color.White), new Position(2, 4));
     Board.PutPiece(new Tower(Board, Color.White), new Position(5, 2));
-    Board.PutPiece(new Tower(Board, Color.White), new Position(8, 8));
+    Board.PutPiece(new Tower(Board, Color.White), new Position(6, 4));
 
     Screen.PrintBoard(Board);
 }
