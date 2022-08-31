@@ -1,4 +1,4 @@
-﻿namespace Tabuleiro
+﻿namespace Xadrez.Board
 {
     internal class Position
     {
