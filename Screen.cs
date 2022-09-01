@@ -22,7 +22,7 @@ namespace Xadrez
         public static void PrintBoard(Board board, bool[,] possiblePositions)
         {
             ConsoleColor originalBackground = Console.BackgroundColor;
-            ConsoleColor changedBackground = ConsoleColor.DarkGray;
+            ConsoleColor changedBackground = ConsoleColor.White;
 
             for (int i = 0; i < board.Rows; i++)
             {
@@ -69,7 +69,7 @@ namespace Xadrez
                 else
                 {
                     ConsoleColor aux = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write(Piece);
                     Console.ForegroundColor = aux;
                 }

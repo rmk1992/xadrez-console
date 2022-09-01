@@ -8,25 +8,37 @@ try
 
     while (!match.Finished)
     {
-        Console.Clear();
-        Screen.PrintBoard(match.Board);
+        try
+        {
+            Console.Clear();
+            Screen.PrintBoard(match.Board);
 
-        Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Turno: " + match.Shift);
+            Console.WriteLine("Aguardando jogada: " + match.CurrentPlayer);
 
-        Console.Write("Origem: ");
-        Position origin = Screen.ReadChessPosition().ToPosition();
+            Console.Write("Origem: ");
+            Position origin = Screen.ReadChessPosition().ToPosition();
+            match.ValidateOriginPosition(origin);
 
-        bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
+            bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
 
-        Console.Clear();
-        Screen.PrintBoard(match.Board, possiblePositions);
+            Console.Clear();
+            Screen.PrintBoard(match.Board, possiblePositions);
 
-        Console.WriteLine();
+            Console.WriteLine();
 
-        Console.Write("Destino: ");
-        Position destination = Screen.ReadChessPosition().ToPosition();
+            Console.Write("Destino: ");
+            Position destination = Screen.ReadChessPosition().ToPosition();
+            match.ValidadeDestinationPosition(origin, destination);
 
-        match.PerformMovement(origin, destination);
+            match.MakesMove(origin, destination);
+        }
+        catch (BoardException e)
+        {
+            Console.WriteLine(e.Message);
+            Console.ReadLine();
+        }
     }
 }
 catch (BoardException e)
