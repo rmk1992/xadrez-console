@@ -13,5 +13,68 @@ namespace Xadrez.ChessLayer
         {
             return "K";
         }
+
+        public bool CanMove(Position position)
+        {
+            Piece p = Board.Piece(position);
+            return p == null || p.Color != Color;
+        }
+
+        public override bool[,] PossibleMovements()
+        {
+            bool[,] mat = new bool[Board.Rows, Board.Columns];
+
+            Position position = new Position(0, 0);
+
+            position.DefineValues(Position.Row - 1, Position.Column);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row - 1, Position.Column + 1);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row, Position.Column + 1);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row + 1, Position.Column + 1);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row + 1, Position.Column);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row + 1, Position.Column - 1);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row, Position.Column - 1);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            position.DefineValues(Position.Row - 1, Position.Column - 1);
+            if (Board.ValidPosition(position) && CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+            }
+
+            return mat;
+        }
     }
 }
