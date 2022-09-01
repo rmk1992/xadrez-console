@@ -4,13 +4,23 @@ using Xadrez.ChessLayer;
 
 try
 {
-    Board board = new Board(8, 8);
+    ChessMatch match = new ChessMatch();
 
-    board.PutPiece(new King(board, Color.White), new Position(2, 4));
-    board.PutPiece(new Tower(board, Color.Blue), new Position(5, 2));
-    board.PutPiece(new Tower(board, Color.White), new Position(6, 4));
+    while (!match.Finished)
+    {
+        Console.Clear();
+        Screen.PrintBoard(match.Board);
 
-    Screen.PrintBoard(board);
+        Console.WriteLine();
+
+        Console.Write("Origem: ");
+        Position origin = Screen.ReadChessPosition().ToPosition();
+
+        Console.Write("Destino: ");
+        Position destination = Screen.ReadChessPosition().ToPosition();
+
+        match.PerformMovement(origin, destination);
+    }
 }
 catch (BoardException e)
 {
