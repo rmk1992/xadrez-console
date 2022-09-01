@@ -11,11 +11,7 @@ try
         try
         {
             Console.Clear();
-            Screen.PrintBoard(match.Board);
-
-            Console.WriteLine();
-            Console.WriteLine("Turno: " + match.Shift);
-            Console.WriteLine("Aguardando jogada: " + match.CurrentPlayer);
+            Screen.PrintMatch(match);
 
             Console.Write("Origem: ");
             Position origin = Screen.ReadChessPosition().ToPosition();

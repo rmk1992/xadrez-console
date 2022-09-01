@@ -5,6 +5,41 @@ namespace Xadrez
 {
     internal class Screen
     {
+        public static void PrintMatch(ChessMatch match)
+        {
+            PrintBoard(match.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turno: " + match.Shift);
+            Console.WriteLine("Aguardando jogada: " + match.CurrentPlayer);
+            Console.WriteLine();
+        }
+
+        public static void PrintCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Peças capturadas:");
+            Console.Write("Brancas: ");
+            PrintSet(match.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Azuis: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            PrintSet(match.CapturedPieces(Color.Blue));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+
+        public static void PrintSet(HashSet<Piece> set)
+        {
+            Console.Write("[");
+            foreach (Piece p in set)
+            {
+                Console.Write(p + " ");
+            }
+            Console.Write("]");
+        }
+
         public static void PrintBoard(Board board)
         {
             for (int i = 0; i < board.Rows; i++)

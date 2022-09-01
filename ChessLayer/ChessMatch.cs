@@ -8,6 +8,8 @@ namespace Xadrez.ChessLayer
         public int Shift { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool Finished { get; private set; }
+        private HashSet<Piece> _pieces;
+        private HashSet<Piece> _captured;
 
         public ChessMatch()
         {
@@ -15,6 +17,8 @@ namespace Xadrez.ChessLayer
             Shift = 1;
             CurrentPlayer = Color.White;
             Finished = false;
+            _pieces = new HashSet<Piece>();
+            _captured = new HashSet<Piece>();
             PutPieces();
         }
 
@@ -24,6 +28,11 @@ namespace Xadrez.ChessLayer
             p.IncrementMovementQuantity();
             Piece capturedPiece = Board.RemovePiece(destination);
             Board.PutPiece(p, destination);
+
+            if (capturedPiece != null)
+            {
+                _captured.Add(capturedPiece);
+            }
         }
 
         public void MakesMove(Position origin, Position destination)
@@ -69,21 +78,56 @@ namespace Xadrez.ChessLayer
             }
         }
 
+        public HashSet<Piece> CapturedPieces(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+
+            foreach (Piece p in _captured)
+            {
+                if (p.Color == color)
+                {
+                    aux.Add(p);
+                }
+            }
+            return aux;
+        }
+
+        public HashSet<Piece> PiecesInGame(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+
+            foreach (Piece p in _pieces)
+            {
+                if (p.Color == color)
+                {
+                    aux.Add(p);
+                }
+            }
+            aux.ExceptWith(CapturedPieces(color));
+            return aux;
+        }
+
+        public void PutNewPiece(char column, int row, Piece piece)
+        {
+            Board.PutPiece(piece, new ChessPosition(column, row).ToPosition());
+            _pieces.Add(piece);
+        }
+
         public void PutPieces()
         {
-            Board.PutPiece(new Tower(Board, Color.White), new ChessPosition('c', 1).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.White), new ChessPosition('c', 2).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.White), new ChessPosition('e', 1).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.White), new ChessPosition('e', 2).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.White), new ChessPosition('d', 2).ToPosition());
-            Board.PutPiece(new King(Board, Color.White), new ChessPosition('d', 1).ToPosition());
+            PutNewPiece('c', 1, new Tower(Board, Color.White));
+            PutNewPiece('c', 2, new Tower(Board, Color.White));
+            PutNewPiece('e', 1, new Tower(Board, Color.White));
+            PutNewPiece('e', 2, new Tower(Board, Color.White));
+            PutNewPiece('d', 1, new King(Board, Color.White));
+            PutNewPiece('d', 2, new Tower(Board, Color.White));
 
-            Board.PutPiece(new Tower(Board, Color.Blue), new ChessPosition('c', 8).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.Blue), new ChessPosition('c', 7).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.Blue), new ChessPosition('e', 8).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.Blue), new ChessPosition('e', 7).ToPosition());
-            Board.PutPiece(new Tower(Board, Color.Blue), new ChessPosition('d', 7).ToPosition());
-            Board.PutPiece(new King(Board, Color.Blue), new ChessPosition('d', 8).ToPosition());
+            PutNewPiece('c', 7, new Tower(Board, Color.Blue));
+            PutNewPiece('c', 8, new Tower(Board, Color.Blue));
+            PutNewPiece('d', 7, new Tower(Board, Color.Blue));
+            PutNewPiece('d', 8, new King(Board, Color.Blue));
+            PutNewPiece('e', 7, new Tower(Board, Color.Blue));
+            PutNewPiece('e', 8, new Tower(Board, Color.Blue));
         }
     }
 }
