@@ -225,15 +225,39 @@ namespace Xadrez.ChessLayer
 
         public void PutPieces()
         {
-            PutNewPiece('h', 7, new Tower(Board, Color.White));
-            PutNewPiece('c', 2, new Tower(Board, Color.White));
-            PutNewPiece('c', 1, new Tower(Board, Color.White));
-            PutNewPiece('e', 2, new Tower(Board, Color.White));
-            PutNewPiece('d', 1, new King(Board, Color.White));
-            PutNewPiece('d', 2, new Tower(Board, Color.White));
+            PutNewPiece('a', 1, new Tower(Board, Color.White));
+            PutNewPiece('b', 1, new Horse(Board, Color.White));
+            PutNewPiece('c', 1, new Bishop(Board, Color.White));
+            PutNewPiece('d', 1, new Queen(Board, Color.White));
+            PutNewPiece('e', 1, new King(Board, Color.White));
+            PutNewPiece('f', 1, new Bishop(Board, Color.White));
+            PutNewPiece('g', 1, new Horse(Board, Color.White));
+            PutNewPiece('h', 1, new Tower(Board, Color.White));
+            PutNewPiece('a', 2, new Pawn(Board, Color.White));
+            PutNewPiece('b', 2, new Pawn(Board, Color.White));
+            PutNewPiece('c', 2, new Pawn(Board, Color.White));
+            PutNewPiece('d', 2, new Pawn(Board, Color.White));
+            PutNewPiece('e', 2, new Pawn(Board, Color.White));
+            PutNewPiece('f', 2, new Pawn(Board, Color.White));
+            PutNewPiece('g', 2, new Pawn(Board, Color.White));
+            PutNewPiece('h', 2, new Pawn(Board, Color.White));
 
-            PutNewPiece('b', 8, new Tower(Board, Color.Blue));
-            PutNewPiece('a', 8, new King(Board, Color.Blue));
+            PutNewPiece('a', 8, new Tower(Board, Color.Blue));
+            PutNewPiece('b', 8, new Horse(Board, Color.Blue));
+            PutNewPiece('c', 8, new Bishop(Board, Color.Blue));
+            PutNewPiece('d', 8, new Queen(Board, Color.Blue));
+            PutNewPiece('e', 8, new King(Board, Color.Blue));
+            PutNewPiece('f', 8, new Bishop(Board, Color.Blue));
+            PutNewPiece('g', 8, new Horse(Board, Color.Blue));
+            PutNewPiece('h', 8, new Tower(Board, Color.Blue));
+            PutNewPiece('a', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('b', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('c', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('d', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('e', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('f', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('g', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('h', 7, new Pawn(Board, Color.Blue));
         }
     }
 }
