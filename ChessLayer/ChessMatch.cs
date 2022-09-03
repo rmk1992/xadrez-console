@@ -67,8 +67,15 @@ namespace Xadrez.ChessLayer
             {
                 Check = false;
             }
-            Shift++;
-            ChangePlayer();
+            if (TestCheckmate(Oponent(CurrentPlayer)))
+            {
+                Finished = true;
+            }
+            else
+            {
+                Shift++;
+                ChangePlayer();
+            }
         }
 
         public void ValidateOriginPosition(Position position)
@@ -179,6 +186,37 @@ namespace Xadrez.ChessLayer
             return false;
         }
 
+        public bool TestCheckmate(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            foreach (Piece p in PiecesInGame(color))
+            {
+                bool[,] mat = p.PossibleMovements();
+                for (int i = 0; i < Board.Rows; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = p.Position;
+                            Position destination = new Position(i, j);
+                            Piece capturedPiece = PerformMovement(origin, destination);
+                            bool testCheck = IsInCheck(color);
+                            UndoMovement(origin, destination, capturedPiece);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void PutNewPiece(char column, int row, Piece piece)
         {
             Board.PutPiece(piece, new ChessPosition(column, row).ToPosition());
@@ -187,19 +225,15 @@ namespace Xadrez.ChessLayer
 
         public void PutPieces()
         {
-            PutNewPiece('c', 1, new Tower(Board, Color.White));
+            PutNewPiece('h', 7, new Tower(Board, Color.White));
             PutNewPiece('c', 2, new Tower(Board, Color.White));
-            PutNewPiece('e', 1, new Tower(Board, Color.White));
+            PutNewPiece('c', 1, new Tower(Board, Color.White));
             PutNewPiece('e', 2, new Tower(Board, Color.White));
             PutNewPiece('d', 1, new King(Board, Color.White));
             PutNewPiece('d', 2, new Tower(Board, Color.White));
 
-            PutNewPiece('c', 7, new Tower(Board, Color.Blue));
-            PutNewPiece('c', 8, new Tower(Board, Color.Blue));
-            PutNewPiece('d', 7, new Tower(Board, Color.Blue));
-            PutNewPiece('d', 8, new King(Board, Color.Blue));
-            PutNewPiece('e', 7, new Tower(Board, Color.Blue));
-            PutNewPiece('e', 8, new Tower(Board, Color.Blue));
+            PutNewPiece('b', 8, new Tower(Board, Color.Blue));
+            PutNewPiece('a', 8, new King(Board, Color.Blue));
         }
     }
 }
