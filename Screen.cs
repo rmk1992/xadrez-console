@@ -13,6 +13,10 @@ namespace Xadrez
             Console.WriteLine();
             Console.WriteLine("Turno: " + match.Shift);
             Console.WriteLine("Aguardando jogada: " + match.CurrentPlayer);
+            if (match.Check)
+            {
+                Console.WriteLine("XEQUE!");
+            }
             Console.WriteLine();
         }
 
