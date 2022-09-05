@@ -11,6 +11,7 @@ namespace Xadrez.ChessLayer
         private HashSet<Piece> _pieces;
         private HashSet<Piece> _captured;
         public bool Check { get; private set; }
+        public Piece VulnerableEnPassant { get; private set; }
 
         public ChessMatch()
         {
@@ -19,6 +20,7 @@ namespace Xadrez.ChessLayer
             CurrentPlayer = Color.White;
             Finished = false;
             Check = false;
+            VulnerableEnPassant = null;
             _pieces = new HashSet<Piece>();
             _captured = new HashSet<Piece>();
             PutPieces();
@@ -52,6 +54,24 @@ namespace Xadrez.ChessLayer
                 Board.PutPiece(t, destinationT);
             }
 
+            if (p is Pawn)
+            {
+                if (origin.Column != destination.Column && capturedPiece == null)
+                {
+                    Position pawnPosition;
+                    if (p.Color == Color.White)
+                    {
+                        pawnPosition = new Position(destination.Row + 1, destination.Column);
+                    }
+                    else
+                    {
+                        pawnPosition = new Position(destination.Row - 1, destination.Column);
+                    }
+                    capturedPiece = Board.RemovePiece(pawnPosition);
+                    _captured.Add(capturedPiece);
+                }
+            }
+
             return capturedPiece;
         }
 
@@ -82,6 +102,24 @@ namespace Xadrez.ChessLayer
                 t.IncrementMovementQuantity();
                 Board.PutPiece(t, originT);
             }
+
+            if (p is Pawn)
+            {
+                if (origin.Column != destination.Column && capturedPiece == VulnerableEnPassant)
+                {
+                    Piece pawn = Board.RemovePiece(destination);
+                    Position pawnPosition;
+                    if (p.Color == Color.White)
+                    {
+                        pawnPosition = new Position(3, destination.Column);
+                    }
+                    else
+                    {
+                        pawnPosition = new Position(4, destination.Column);
+                    }
+                    Board.PutPiece(pawn, pawnPosition);
+                }
+            }
         }
 
         public void MakesMove(Position origin, Position destination)
@@ -109,6 +147,17 @@ namespace Xadrez.ChessLayer
             {
                 Shift++;
                 ChangePlayer();
+            }
+
+            Piece p = Board.Piece(destination);
+
+            if (p is Pawn && (destination.Row == origin.Row - 2 || destination.Row == origin.Row + 2))
+            {
+                VulnerableEnPassant = p;
+            }
+            else
+            {
+                VulnerableEnPassant = null;
             }
         }
 
@@ -267,14 +316,14 @@ namespace Xadrez.ChessLayer
             PutNewPiece('f', 1, new Bishop(Board, Color.White));
             PutNewPiece('g', 1, new Horse(Board, Color.White));
             PutNewPiece('h', 1, new Tower(Board, Color.White));
-            PutNewPiece('a', 2, new Pawn(Board, Color.White));
-            PutNewPiece('b', 2, new Pawn(Board, Color.White));
-            PutNewPiece('c', 2, new Pawn(Board, Color.White));
-            PutNewPiece('d', 2, new Pawn(Board, Color.White));
-            PutNewPiece('e', 2, new Pawn(Board, Color.White));
-            PutNewPiece('f', 2, new Pawn(Board, Color.White));
-            PutNewPiece('g', 2, new Pawn(Board, Color.White));
-            PutNewPiece('h', 2, new Pawn(Board, Color.White));
+            PutNewPiece('a', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('b', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('c', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('d', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('e', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('f', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('g', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('h', 2, new Pawn(Board, Color.White, this));
 
             PutNewPiece('a', 8, new Tower(Board, Color.Blue));
             PutNewPiece('b', 8, new Horse(Board, Color.Blue));
@@ -284,14 +333,14 @@ namespace Xadrez.ChessLayer
             PutNewPiece('f', 8, new Bishop(Board, Color.Blue));
             PutNewPiece('g', 8, new Horse(Board, Color.Blue));
             PutNewPiece('h', 8, new Tower(Board, Color.Blue));
-            PutNewPiece('a', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('b', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('c', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('d', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('e', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('f', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('g', 7, new Pawn(Board, Color.Blue));
-            PutNewPiece('h', 7, new Pawn(Board, Color.Blue));
+            PutNewPiece('a', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('b', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('c', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('d', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('e', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('f', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('g', 7, new Pawn(Board, Color.Blue, this));
+            PutNewPiece('h', 7, new Pawn(Board, Color.Blue, this));
         }
     }
 }
